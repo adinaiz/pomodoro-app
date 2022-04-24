@@ -1,59 +1,68 @@
-import React, { useId } from 'react'
-import { Button } from '../UI/Button'
-import styled from 'styled-components'
-import next from '../../assets/icons/next.png'
-import { LONG_BREAK, POMODORO, SHORT_BREAK, START, STOP } from '../../utils/constants/general'
+import React, { Fragment } from "react";
+import { Button } from "../UI/Button";
+import styled from "styled-components";
+import next from "../../assets/icons/next.png";
+import {
+   LONG_BREAK,
+   POMODORO,
+   SHORT_BREAK,
+   START,
+   STOP,
+} from "../../utils/constants/general";
 
-const Timing = ({
-   switchContent,
-   setTicking,
-   minutes,
-   seconds,
-   ticking,
-}) => {
-   const options = [POMODORO, SHORT_BREAK, LONG_BREAK]
-   const id = useId()
+const Timing = ({ begin, setBegin, minutes, seconds, formToggle }) => {
+   const status = [POMODORO, SHORT_BREAK, LONG_BREAK];
    return (
-      <>
-         <Buttons>
-            {options.map((option, index) => {
+      <Fragment>
+         <StyledButtons>
+            {status.map((form, stage) => {
                return (
                   <Button
-                     key={`${id + index}}`}
-                     onClick={() => switchContent(index)}
+                     onClick={() => {
+                        formToggle(stage);
+                     }}
                   >
-                    {option}</Button> )
+                     {" "}
+                     {form}
+                  </Button>
+               );
             })}
-         </Buttons>
-         <TimeTitle>
-            {minutes}:
+         </StyledButtons>
+         <StyledTitle>
+            {minutes}:{" "}
             {`${seconds % 60 > 9 ? seconds % 60 : `0${seconds % 60}`}`}
-         </TimeTitle>
-         <TimeToggle>
+         </StyledTitle>
+         <StyledSwitch>
             <Button
-               onClick={() => setTicking((prevState) => !prevState)}
+               onClick={() => setBegin((prevState) => !prevState)}
                className="start"
             >
-               {ticking ? START : STOP}
+               {begin ? START : STOP}
             </Button>
-            {ticking ? ('') : (
+            {!begin ? (
                <Button
                   onClick={() =>
-                     alert('Are you sure you want to finish the round early? (The remaining time will not be counted in the report.)')
+                     alert(
+                        "Are you sure you want to finish the round early? The remaining time will not be counted in the report"
+                     )
                   }
-                  className="next">
-                  <img src={next} alt="next"/>
+                  className="nextbtn"
+               >
+                  <img src={next} alt="next" />
                </Button>
+            ) : (
+               ""
             )}
-         </TimeToggle>
-      </>
-   )
-}
+         </StyledSwitch>
+      </Fragment>
+   );
+};
 
-const Buttons = styled.div`
+const StyledButtons = styled.div`
    display: flex;
    justify-content: center;
    align-items: center;
+
    Button {
       font-size: 17px;
       border: none;
@@ -69,51 +78,43 @@ const Buttons = styled.div`
          opacity: 0.9;
       }
    }
-`
-const TimeTitle = styled.span`
+`;
+const StyledTitle = styled.span`
    color: white;
-   font-family:'ArialRounded', Arial;
-   font-size: 120px;
-   font-weight: bold;
-   margin-top: 20px;
-`
-const TimeToggle = styled.div`
+   font-size: 100px;
+   margin-top: 15px;
+`;
+const StyledSwitch = styled.div`
    display: flex;
    justify-content: center;
    padding: 0 0 15px;
    .start {
-      cursor: pointer;
-      border: none;
-      margin: 15px 0px 10px;
       border-radius: 5px;
-      /* box-shadow: ${({ isStarted }) =>
-      isStarted ? 'rgb(235 235 235) 0px 6px 0px' : ''}; */
       position: relative;
-      /* top: ${({ isStarted }) => (isStarted ? '0' : '7px')}; */
       font-size: 24px;
-      /* color: ${({ color }) => color || ''}; */
       height: 55px;
       font-weight: bold;
       width: 200px;
+      cursor: pointer;
+      border: none;
+      margin: 15px 0px 10px;
       background-color: white;
-      font-family: 'ArialRounded', Arial;
+      font-family: "ArialRounded", Arial;
       letter-spacing: 0.5px;
       box-shadow: rgb(235, 235, 235) 0 6px 0;
    }
    .start:hover {
-      opacity: 0.9;
-      /* box-shadow: none; */
+      opacity: 1;
    }
-   .next {
-      /* box-shadow: none; */
-      opacity: 0.9;
-      cursor: pointer;
+   .nextbtn {
       background: none;
       border: none;
       padding: 26px;
+      opacity: 0.9;
+      cursor: pointer;
       img {
          width: 30px;
       }
    }
-`
+`;
 export default Timing;

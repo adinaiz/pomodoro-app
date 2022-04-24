@@ -1,16 +1,8 @@
-import React from 'react';
-import { PomoHeader } from './components/pomodoro/PomoHeader';
-import Timer from './components/pomodoro/Timer';
-
+import React from "react";
+import { PomoRoutes } from "./routes/PomoRoutes";
 
 function App() {
-  return (
-    <div>
-      <PomoHeader/>
-      <Timer />
-    </div>
-  );
+   return <PomoRoutes />;
 }
-
 
 export default App;

@@ -1,19 +1,14 @@
-import styled from 'styled-components'
-import React from 'react'
-
-export const Input = (props) => {
-   return <Styledinput {...props} />
-}
-
-const Styledinput = styled.input`
-   outline: none;
-   border: none;
-   border-radius: ${({ borderRds }) => borderRds || ''};
-   background-color: ${({ bgColor }) => bgColor || ''};
-   font-size: ${({ fontSize }) => fontSize || ''};
-   margin: ${({ m }) => m || ''};
-   padding: ${({ p }) => p || ''};
-   color: ${({ color }) => color || ''};
-   width: ${({ w }) => w || ''};
-   height: ${({ h }) => h || ''};
-`
+const Input = (props) => {
+   return (
+      <div>
+         <input
+            onChange={props.onChange}
+            value={props.value}
+            className={props.className}
+            placeholder={props.placeholder}
+            type={props.type}
+         />
+      </div>
+   );
+};
+export default Input;
